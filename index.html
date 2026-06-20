@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jayson & Leena Wedding Invitation</title>
+    <meta name="description" content="Animated envelope wedding invitation for Jayson and Leena.">
+    <link rel="preconnect" href="https://assets.website-files.com">
+    <link rel="preconnect" href="https://cdn.prod.website-files.com">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="envelope-section" id="envelopeSection" aria-labelledby="envelopeTitle">
+        <button class="envelope-open-hit" id="openEnvelope" type="button" aria-expanded="false">
+          <span class="sr-only">Open wedding invitation</span>
+        </button>
+
+        <div class="envelope-stage" aria-hidden="true">
+          <div class="envelope-wrapper">
+            <div class="envelope-back-wrapper">
+              <div class="envelope-back">
+                <img
+                  class="envelope-lining"
+                  src="https://cdn.prod.website-files.com/62d6ebd44d2d5c78b4277d22/62d72151cc456d73eb15c617_lining.webp"
+                  alt=""
+                >
+                <div class="card-lift">
+                  <img
+                    class="card-paper"
+                    src="https://cdn.prod.website-files.com/62d6ebd44d2d5c78b4277d22/62d721fc45f8f0dd134c5c47_card.webp"
+                    alt=""
+                  >
+                  <div class="card-note">
+                    <p>Save the date</p>
+                    <h2 id="envelopeTitle">Jayson <span>&amp;</span> Leena</h2>
+                    <p>09 • 04 • 2022</p>
+                  </div>
+                </div>
+                <img
+                  class="envelope-back-paper"
+                  src="https://cdn.prod.website-files.com/62d6ebd44d2d5c78b4277d22/62d720e97b4a73259a5ae839_2014.portrait.back.webp"
+                  alt=""
+                >
+                <div class="flap-inside">
+                  <img
+                    src="https://cdn.prod.website-files.com/62d6ebd44d2d5c78b4277d22/62d6f2ed6a8d3d568377c768_inside-flap.webp"
+                    alt=""
+                  >
+                </div>
+                <div class="flap-back">
+                  <img
+                    src="https://cdn.prod.website-files.com/62d6ebd44d2d5c78b4277d22/62d6f2e24d2d5c923127d1d8_envelope-flap-empty.webp"
+                    alt=""
+                  >
+                  <span>Wedding Invitation</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="envelope-front-wrapper">
+              <img
+                class="envelope-front"
+                src="https://cdn.prod.website-files.com/62d6ebd44d2d5c78b4277d22/62d6f2cfdfe29ecfe9ee8b43_2014.webp"
+                alt=""
+              >
+              <img
+                class="stamp"
+                src="https://cdn.prod.website-files.com/62d6ebd44d2d5c78b4277d22/62d6f2d4391e4c60b584fa47_Postage-Stamp.webp"
+                alt=""
+              >
+              <div class="addressee">
+                <span>You're invited,</span>
+                <strong>Dear Guest</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="open-copy">click to open</p>
+      </section>
+
+      <section class="wedme-template" id="invitationContent" aria-label="Jayson and Leena wedding details">
+        <div class="photo-col">
+          <div class="photo-slider" aria-hidden="true">
+            <img
+              src="https://assets.website-files.com/61eaa4567764f614ee5240d0/61eaa4567764f617985240e0_unsplash_36P3Eo4jpq0.jpg"
+              alt=""
+            >
+            <img
+              src="https://assets.website-files.com/61eaa4567764f614ee5240d0/61eaa4567764f640835240e1_unsplash_j4kR7-tWE2M.jpg"
+              alt=""
+            >
+          </div>
+        </div>
+
+        <div class="content-col">
+          <section class="wed-section hero-section" id="home">
+            <img
+              class="flower-one"
+              src="https://assets.website-files.com/61eaa4567764f614ee5240d0/61eaa4567764f6af345240e3_Vector.svg"
+              alt=""
+            >
+            <p class="date">09 • 04 • 2022</p>
+            <p class="date">save this date — we are getting married!</p>
+            <h1 class="name-title">Jayson <span>&amp;</span> Leena</h1>
+            <a class="scroll-cue" href="#rsvp-section">scroll</a>
+          </section>
+
+          <section class="wed-section light" id="rsvp-section">
+            <div class="text-wrap">
+              <h2>R.S.V.P</h2>
+              <p>We are so excited to have you at our wedding! Please fill the form below to register.</p>
+              <form class="rsvp-form" id="rsvpForm">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name" required>
+                <label for="phone">Mobile Number</label>
+                <input id="phone" name="phone" type="tel" placeholder="Phone Number" required>
+                <label for="email">Email Address</label>
+                <input id="email" name="email" type="email" placeholder="Email address" required>
+                <button class="button dark full" type="submit">register</button>
+                <p class="form-status" id="formStatus" role="status"></p>
+              </form>
+            </div>
+          </section>
+
+          <section class="wed-section" id="programme">
+            <div class="text-wrap">
+              <h2>Programme Guide</h2>
+              <p>
+                Join us for an evening ceremony, portraits, dinner, and dancing as we celebrate with
+                the people who mean the most to us.
+              </p>
+              <div class="program-list">
+                <span><strong>4:00 PM</strong> Guest arrival</span>
+                <span><strong>4:30 PM</strong> Ceremony</span>
+                <span><strong>6:30 PM</strong> Reception dinner</span>
+              </div>
+              <a class="button" href="#rsvp-section">rsvp now</a>
+            </div>
+          </section>
+
+          <section class="wed-section light" id="support">
+            <div class="text-wrap">
+              <h2>Support Us</h2>
+              <p>We truly appreciate your love, prayers, and every form of support given to us.</p>
+              <button class="accordion-trigger" type="button">Bank transfer</button>
+              <div class="accordion-panel">
+                <p>Account holder: Jayson & Leena<br>Bank: Wedding Bank<br>Reference: Your name</p>
+              </div>
+              <button class="accordion-trigger" type="button">Send us a special gift</button>
+              <div class="accordion-panel">
+                <p>Please bring gifts to the reception desk or contact the wedding party.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="wed-section contact-section" id="contact">
+            <img
+              class="flow-bg"
+              src="https://assets.website-files.com/61eaa4567764f614ee5240d0/61eaa4567764f634f45240e6_gxfsdhfjgk.svg"
+              alt=""
+            >
+            <div class="text-wrap">
+              <h2>Reach out to us</h2>
+              <p>For directions, accommodation, or ceremony details, contact the wedding party.</p>
+              <a class="button colored" href="https://maps.google.com" target="_blank" rel="noreferrer">view location</a>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
