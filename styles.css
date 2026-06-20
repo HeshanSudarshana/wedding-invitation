@@ -54,11 +54,11 @@ input {
   z-index: 20;
   display: grid;
   place-items: center;
-  overflow: hidden;
+  overflow: clip;
   padding: clamp(1rem, 5vw, 5rem);
   background-image: url("https://assets.website-files.com/62d2be1149ba53f219cc5224/62d6742b972bf1214073306c_background.webp");
   background-size: cover;
-  transition: opacity 700ms ease 1800ms, visibility 700ms ease 1800ms;
+  transition: opacity 700ms ease 2300ms, visibility 700ms ease 2300ms;
 }
 
 .envelope-section.is-open {
@@ -93,7 +93,7 @@ input {
 }
 
 .envelope-stage {
-  width: min(88vw, 840px);
+  width: min(86vw, 840px);
   perspective: 800px;
 }
 
@@ -107,10 +107,10 @@ input {
 .envelope-back-wrapper {
   max-width: 840px;
   margin: 0 auto;
-  backface-visibility: hidden;
   transform-style: preserve-3d;
   transition:
     transform 1000ms cubic-bezier(0.22, 0.8, 0.2, 1),
+    opacity 650ms ease,
     filter 800ms ease,
     box-shadow 800ms ease;
 }
@@ -119,13 +119,16 @@ input {
   position: relative;
   z-index: 4;
   box-shadow: var(--envelope-shadow);
+  backface-visibility: hidden;
 }
 
 .envelope-back-wrapper {
   position: absolute;
   inset: 0;
+  z-index: 2;
   transform: rotateY(-180deg);
   filter: brightness(60%);
+  backface-visibility: hidden;
 }
 
 .envelope-back {
@@ -136,8 +139,7 @@ input {
 
 .envelope-front,
 .envelope-back-paper,
-.envelope-lining,
-.card-paper {
+.envelope-lining {
   width: 100%;
 }
 
@@ -173,49 +175,110 @@ input {
   inset: 0;
 }
 
+.envelope-lining {
+  z-index: 0;
+}
+
+.envelope-back-paper {
+  z-index: 3;
+}
+
 .card-lift {
   z-index: 1;
   display: flex;
-  width: 95%;
+  width: min(76%, 620px);
+  height: 78%;
   margin: auto;
   align-items: center;
   justify-content: center;
+  transform: translateY(10%) scale(0.97);
   transform-style: preserve-3d;
-  transition: transform 1050ms cubic-bezier(0.2, 0.75, 0.2, 1) 900ms;
+  transition:
+    transform 1350ms cubic-bezier(0.18, 0.72, 0.18, 1) 1050ms,
+    filter 850ms ease 1050ms;
 }
 
 .card-paper {
-  transform: rotate(-90deg);
+  position: relative;
+  display: grid;
+  grid-template-columns: 42% 58%;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  border: 12px solid var(--cream);
+  background: var(--teal);
+  box-shadow: 0 22px 35px rgba(0, 0, 0, 0.16);
 }
 
-.card-note {
-  position: absolute;
-  color: #000;
-  font-family: Bitter, Georgia, serif;
-  font-size: clamp(0.76rem, 1.2vw, 1.15rem);
-  line-height: 1.4;
+.mini-photo {
+  min-height: 100%;
+  background-image: url("https://assets.website-files.com/61eaa4567764f614ee5240d0/61eaa4567764f617985240e0_unsplash_36P3Eo4jpq0.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.mini-invite {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  justify-items: center;
+  overflow: hidden;
+  padding: clamp(0.75rem, 2.2vw, 2rem);
+  color: var(--cream);
   text-align: center;
-  transform: rotate(-90deg);
 }
 
-.card-note h2 {
-  margin: 0.6rem 0;
-  font-family: "Great Vibes", "Palatino Linotype", Palatino, serif;
-  font-size: clamp(1.6rem, 4vw, 3.2rem);
+.mini-invite p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--blush);
+  font-size: clamp(0.48rem, 1vw, 0.84rem);
+  line-height: 1.7;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mini-invite h2 {
+  position: relative;
+  z-index: 1;
+  max-width: 8ch;
+  margin: 0.28em 0 0;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: clamp(1.9rem, 5.1vw, 4.9rem);
   font-weight: 400;
-  line-height: 1;
+  letter-spacing: 0.04em;
+  line-height: 0.98;
 }
 
-.card-note h2 span {
-  color: #407f6a;
+.mini-invite h2 span {
+  color: var(--blush);
+}
+
+.mini-flower {
+  position: absolute;
+  top: -12%;
+  right: -24%;
+  width: 52%;
+  min-width: 145px;
+  opacity: 0.75;
 }
 
 .flap-inside,
 .flap-back {
-  z-index: 2;
+  z-index: 5;
   transform-origin: 50% 0;
   transform-style: preserve-3d;
   transition: transform 850ms cubic-bezier(0.2, 0.7, 0.18, 1) 580ms;
+}
+
+.flap-inside {
+  backface-visibility: hidden;
+}
+
+.flap-back {
+  backface-visibility: visible;
 }
 
 .flap-inside img,
@@ -233,26 +296,36 @@ input {
   font-size: clamp(1rem, 2vw, 1.5rem);
   line-height: 1;
   text-align: center;
+  transition: opacity 250ms ease 580ms;
 }
 
 .is-open .envelope-front-wrapper {
+  z-index: 1;
   transform: rotateY(180deg);
   filter: brightness(55%);
+  opacity: 0.72;
   box-shadow: 20px 25px 35px rgba(0, 0, 0, 0.08);
 }
 
 .is-open .envelope-back-wrapper {
+  z-index: 6;
   transform: rotateY(0deg);
   filter: brightness(100%);
 }
 
 .is-open .flap-inside,
 .is-open .flap-back {
+  z-index: 0;
   transform: rotateX(180deg);
 }
 
+.is-open .flap-back span {
+  opacity: 0;
+}
+
 .is-open .card-lift {
-  transform: translateY(-58%) scale(1.04);
+  filter: drop-shadow(0 28px 22px rgba(0, 0, 0, 0.14));
+  transform: translateY(-78%) scale(1.08);
 }
 
 .wedme-template {
@@ -546,9 +619,17 @@ input {
     font-size: 1.5rem;
   }
 
-  .card-note {
-    width: 60%;
-    font-size: 0.9rem;
+  .card-lift {
+    width: 82%;
+    height: 80%;
+  }
+
+  .card-paper {
+    border-width: 7px;
+  }
+
+  .mini-invite h2 {
+    font-size: clamp(1.35rem, 7vw, 3.5rem);
   }
 
   .wedme-template {
