@@ -3,7 +3,7 @@
 Static animated wedding invitation built from the public published Webflow template assets:
 
 - Webflow responsive CMS envelope animation
-- Webflow Jayson & Leena wedding template content style
+- Webflow Sachini & Heshan wedding template content style
 
 Open `index.html` in a browser, or serve the folder locally:
 
@@ -21,4 +21,4 @@ Common edits:
 Notes:
 
 - Envelope image layers are loaded from the published `responsive-cms-envelope.webflow.io` asset CDN.
-- Jayson & Leena photos, floral SVG, colors, and split layout follow the published `wedme.webflow.io` template.
+- Sachini & Heshan photos, floral SVG, colors, and split layout follow the published `wedme.webflow.io` template.
