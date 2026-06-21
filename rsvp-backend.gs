@@ -6,21 +6,25 @@
  * as a Web App (see the step-by-step guide in the chat / README).
  *
  * Expected sheet tab named "Guests" with this header row in row 1:
- *   A: token | B: party_label | C: guest_names | D: responded |
- *   E: coming_count | F: attendees | G: responded_at
+ *   A: token | B: party_label | C: max_count | D: responded |
+ *   E: attending | F: coming_count | G: responded_at
  *
  *   - token        : unique random id (run generateTokens() to fill these)
- *   - party_label  : e.g. "The Perera Family"  (shown on the page)
- *   - guest_names  : comma-separated, e.g. "Nimal, Kamala"
+ *   - party_label  : family or individual name, e.g. "The Perera Family"
+ *                    or "Nimal Perera"  (shown on the page)
+ *   - max_count    : number of seats invited for this party (1 for a single
+ *                    guest). When 1 the page hides the count picker.
  *   - D–G          : filled in automatically when the guest responds
+ *                    (attending = "yes"/"no"; coming_count is 0 on a decline)
  */
 
 const SHEET_NAME = "Guests";
 
 // Column numbers (1-based) for the writeback fields.
+const COL_MAX_COUNT = 3; // C
 const COL_RESPONDED = 4; // D
-const COL_COUNT = 5; // E
-const COL_ATTENDEES = 6; // F
+const COL_ATTENDING = 5; // E  "yes" / "no"
+const COL_COUNT = 6; // F
 const COL_RESPONDED_AT = 7; // G
 
 function doGet(e) {
@@ -32,9 +36,11 @@ function doGet(e) {
     if (row) {
       out.ok = true;
       out.partyLabel = row.data[1];
-      out.guests = splitList(row.data[2]);
+      out.maxCount = Math.max(Number(row.data[COL_MAX_COUNT - 1]) || 1, 1);
       out.responded = Boolean(row.data[COL_RESPONDED - 1]);
-      out.attendees = splitList(row.data[COL_ATTENDEES - 1]);
+      out.attending =
+        String(row.data[COL_ATTENDING - 1]).trim().toLowerCase() === "yes";
+      out.comingCount = Number(row.data[COL_COUNT - 1]) || 0;
     }
   }
 
@@ -50,14 +56,26 @@ function doPost(e) {
   }
 
   const token = String(body.token || "").trim();
-  const attendees = Array.isArray(body.attendees) ? body.attendees : [];
   const row = findRow(token);
   if (!row) return json({ ok: false, error: "not_found" });
 
+  const attending =
+    body.attending === true ||
+    String(body.attending).trim().toLowerCase() === "yes";
+
+  const maxCount = Math.max(Number(row.data[COL_MAX_COUNT - 1]) || 1, 1);
+  let count = parseInt(body.count, 10);
+  if (attending) {
+    // Clamp to 1..maxCount so a tampered payload can't overbook the party.
+    count = Math.min(Math.max(isNaN(count) ? 1 : count, 1), maxCount);
+  } else {
+    count = 0; // whole-party decline
+  }
+
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
   sheet.getRange(row.index, COL_RESPONDED).setValue("yes");
-  sheet.getRange(row.index, COL_COUNT).setValue(attendees.length);
-  sheet.getRange(row.index, COL_ATTENDEES).setValue(attendees.join(", "));
+  sheet.getRange(row.index, COL_ATTENDING).setValue(attending ? "yes" : "no");
+  sheet.getRange(row.index, COL_COUNT).setValue(count);
   sheet.getRange(row.index, COL_RESPONDED_AT).setValue(new Date());
 
   return json({ ok: true });
@@ -73,15 +91,6 @@ function findRow(token) {
     }
   }
   return null;
-}
-
-function splitList(value) {
-  return String(value || "")
-    .split(",")
-    .map(function (s) {
-      return s.trim();
-    })
-    .filter(Boolean);
 }
 
 function json(obj) {

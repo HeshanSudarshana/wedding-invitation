@@ -10,6 +10,14 @@
     box-sizing: border-box;
 }
 
+/* The `hidden` attribute is implemented via the UA `[hidden] { display: none }`
+   rule, which any author `display` (e.g. `display: grid` on .rsvp-form and
+   .rsvp-count) would otherwise override. This keeps toggling `el.hidden` in JS
+   actually hiding the element. */
+[hidden] {
+    display: none !important;
+}
+
 html {
     min-height: 100%;
     scroll-behavior: smooth;
@@ -610,12 +618,12 @@ input {
     color: rgba(18, 105, 106, 0.78);
 }
 
-.rsvp-guests {
+.rsvp-choice {
     display: grid;
     gap: 8px;
 }
 
-.guest-toggle {
+.rsvp-radio {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -624,19 +632,92 @@ input {
     color: var(--dark);
     background: rgba(255, 255, 255, 0.92);
     font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
     cursor: pointer;
     transition: border-color 200ms ease, background 200ms ease;
 }
 
-.guest-toggle:hover {
+.rsvp-radio:hover {
     border-color: var(--teal);
 }
 
-.guest-toggle input {
+.rsvp-radio:has(input:checked) {
+    border-color: var(--teal);
+    background: rgba(18, 105, 106, 0.07);
+}
+
+.rsvp-radio input {
     width: 20px;
     height: 20px;
     accent-color: var(--teal);
     cursor: pointer;
+}
+
+.rsvp-count {
+    display: grid;
+    gap: 12px;
+    margin: 4px 0;
+    border: 1px solid rgba(18, 105, 106, 0.18);
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.rsvp-count-label {
+    color: var(--teal);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    width: max-content;
+}
+
+.stepper-btn {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(18, 105, 106, 0.4);
+    padding: 0;
+    color: var(--teal);
+    background: rgba(255, 255, 255, 0.92);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 200ms ease;
+}
+
+.stepper-btn:hover:not(:disabled) {
+    background: rgba(18, 105, 106, 0.12);
+}
+
+.stepper-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.rsvp-form input.stepper-value {
+    width: 66px;
+    height: 48px;
+    border-left: 0;
+    border-right: 0;
+    padding: 0;
+    color: var(--dark);
+    background: #fff;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.rsvp-form input.stepper-value:focus {
+    outline: none;
+}
+
+.rsvp-count-hint {
+    margin: 0;
+    color: rgba(18, 105, 106, 0.7);
+    font-size: 0.82rem;
 }
 
 .rsvp-message {

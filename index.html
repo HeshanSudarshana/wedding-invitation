@@ -271,10 +271,65 @@
                             <form class="rsvp-form" id="rsvpForm" hidden>
                                 <p class="rsvp-party-label" id="rsvpPartyLabel"></p>
                                 <p class="rsvp-intro">
-                                    Please tick everyone who will be able to
-                                    attend.
+                                    Will you be joining us on our special day?
                                 </p>
-                                <div class="rsvp-guests" id="rsvpGuests"></div>
+                                <div class="rsvp-choice" id="rsvpChoice">
+                                    <label class="rsvp-radio">
+                                        <input
+                                            type="radio"
+                                            name="attending"
+                                            value="yes"
+                                            id="attendYes"
+                                        />
+                                        <span>Joyfully accept</span>
+                                    </label>
+                                    <label class="rsvp-radio">
+                                        <input
+                                            type="radio"
+                                            name="attending"
+                                            value="no"
+                                            id="attendNo"
+                                        />
+                                        <span>Regretfully decline, with love</span>
+                                    </label>
+                                </div>
+                                <div class="rsvp-count" id="rsvpCount" hidden>
+                                    <span class="rsvp-count-label"
+                                        >How many will be attending?</span
+                                    >
+                                    <div class="stepper">
+                                        <button
+                                            type="button"
+                                            class="stepper-btn"
+                                            id="countMinus"
+                                            aria-label="Decrease guest count"
+                                        >
+                                            &minus;
+                                        </button>
+                                        <input
+                                            type="text"
+                                            inputmode="numeric"
+                                            class="stepper-value"
+                                            id="rsvpCountInput"
+                                            value="1"
+                                            readonly
+                                            aria-live="polite"
+                                            aria-label="Guest count"
+                                        />
+                                        <button
+                                            type="button"
+                                            class="stepper-btn"
+                                            id="countPlus"
+                                            aria-label="Increase guest count"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                    <p
+                                        class="rsvp-count-hint"
+                                        id="rsvpCountHint"
+                                    ></p>
+                                </div>
                                 <button class="button dark full" type="submit">
                                     send response
                                 </button>

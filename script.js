@@ -130,11 +130,20 @@ countdownTimer = window.setInterval(updateCountdown, 1000);
 // --- RSVP ----------------------------------------------------------------
 // Paste your deployed Google Apps Script web-app URL here (ends with /exec).
 const RSVP_API =
-  "https://script.google.com/macros/s/AKfycby2V_JGtNjQVhYiV-PiYsNKAUJ2SYzWX3hc6_I7Hf3zXFmnKw-hkskCM6_JGMDzhhI93A/exec";
+  "https://script.google.com/macros/s/AKfycbwVj68aDCfLf29DFpdA1B7s4ez-M1beRIUvvDd6sD9kjcGhNp5FoviO9Mr8mrXg4nEP/exec";
 
-const rsvpGuests = document.querySelector("#rsvpGuests");
 const rsvpPartyLabel = document.querySelector("#rsvpPartyLabel");
 const rsvpMessage = document.querySelector("#rsvpMessage");
+const attendYes = document.querySelector("#attendYes");
+const attendNo = document.querySelector("#attendNo");
+const rsvpCount = document.querySelector("#rsvpCount");
+const rsvpCountInput = document.querySelector("#rsvpCountInput");
+const rsvpCountHint = document.querySelector("#rsvpCountHint");
+const countMinus = document.querySelector("#countMinus");
+const countPlus = document.querySelector("#countPlus");
+
+// How many seats this party was invited to fill (set when the party loads).
+let maxCount = 1;
 
 function getRsvpToken() {
   return new URLSearchParams(window.location.search).get("g");
@@ -145,28 +154,32 @@ function showRsvpMessage(text) {
   rsvpMessage.textContent = text;
 }
 
-function renderGuests(guests, attendees) {
-  rsvpGuests.innerHTML = "";
-  guests.forEach((name, index) => {
-    const id = `guest-${index}`;
-    const row = document.createElement("label");
-    row.className = "guest-toggle";
-    row.htmlFor = id;
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = id;
-    checkbox.value = name;
-    // Pre-tick attendees from a previous response; otherwise default to coming.
-    checkbox.checked = attendees.length ? attendees.includes(name) : true;
-
-    const text = document.createElement("span");
-    text.textContent = name;
-
-    row.append(checkbox, text);
-    rsvpGuests.appendChild(row);
-  });
+function clampCount(value) {
+  if (Number.isNaN(value)) value = 1;
+  return Math.min(Math.max(value, 1), maxCount);
 }
+
+function getCount() {
+  return clampCount(parseInt(rsvpCountInput.value, 10));
+}
+
+function setCount(value) {
+  const count = clampCount(value);
+  rsvpCountInput.value = String(count);
+  countMinus.disabled = count <= 1;
+  countPlus.disabled = count >= maxCount;
+}
+
+// The count picker only matters when accepting AND more than one seat was
+// reserved — a single-seat invite has nothing to choose.
+function updateCountVisibility() {
+  rsvpCount.hidden = !(attendYes.checked && maxCount > 1);
+}
+
+countMinus.addEventListener("click", () => setCount(getCount() - 1));
+countPlus.addEventListener("click", () => setCount(getCount() + 1));
+attendYes.addEventListener("change", updateCountVisibility);
+attendNo.addEventListener("change", updateCountVisibility);
 
 async function loadParty() {
   const token = getRsvpToken();
@@ -189,13 +202,29 @@ async function loadParty() {
     }
 
     rsvpPartyLabel.textContent = data.partyLabel || "";
-    renderGuests(data.guests || [], data.attendees || []);
-    rsvpForm.hidden = false;
+    maxCount = Math.max(parseInt(data.maxCount, 10) || 1, 1);
+    if (maxCount > 1) {
+      rsvpCountHint.textContent = `We've reserved up to ${maxCount} seats for your party.`;
+    }
 
+    // Restore a previous answer if there is one, otherwise default to accepting
+    // with the whole party coming.
     if (data.responded) {
+      if (data.attending) {
+        attendYes.checked = true;
+        setCount(data.comingCount || maxCount);
+      } else {
+        attendNo.checked = true;
+      }
       formStatus.textContent =
         "You've already responded — submit again to update your answer.";
+    } else {
+      attendYes.checked = true;
+      setCount(maxCount);
     }
+    updateCountVisibility();
+
+    rsvpForm.hidden = false;
   } catch (error) {
     showRsvpMessage(
       "Something went wrong loading your invitation. Please try again later.",
@@ -206,9 +235,14 @@ async function loadParty() {
 rsvpForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const token = getRsvpToken();
-  const attendees = Array.from(
-    rsvpGuests.querySelectorAll("input:checked"),
-  ).map((input) => input.value);
+
+  const attending = attendYes.checked;
+  if (!attending && !attendNo.checked) {
+    formStatus.textContent = "Please let us know if you can make it.";
+    return;
+  }
+  // Declining the whole party is count 0; a single-seat invite is always 1.
+  const count = attending ? (maxCount > 1 ? getCount() : 1) : 0;
 
   const submitButton = rsvpForm.querySelector("button[type='submit']");
   submitButton.disabled = true;
@@ -219,10 +253,10 @@ rsvpForm.addEventListener("submit", async (event) => {
     await fetch(RSVP_API, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ token, attendees }),
+      body: JSON.stringify({ token, attending, count }),
     });
 
-    formStatus.textContent = attendees.length
+    formStatus.textContent = attending
       ? "Thank you! We can't wait to celebrate with you."
       : "Thank you for letting us know — you'll be missed!";
   } catch (error) {
