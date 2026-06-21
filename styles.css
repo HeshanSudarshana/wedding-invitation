@@ -227,7 +227,7 @@ input {
 
 .mini-photo {
     min-height: 100%;
-    background-image: url("assets/img/mini-photo.jpg");
+    background-image: url("assets/img/photo-1.jpg");
     background-position: center;
     background-size: cover;
 }

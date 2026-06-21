@@ -20,8 +20,12 @@ Common edits:
 
 Notes:
 
-- Envelope image layers are loaded from the published `responsive-cms-envelope.webflow.io` asset CDN.
-- Sachini & Heshan photos, floral SVG, colors, and split layout follow the published `wedme.webflow.io` template.
+- All images (envelope layers, floral SVGs, photos, backgrounds, postage stamp)
+  are served locally from `assets/img/`. The site has no external asset
+  dependencies, so it works fully offline and on any static host.
+- The original layout and styling were adapted from the published
+  `responsive-cms-envelope.webflow.io` and `wedme.webflow.io` templates; their
+  assets have since been downloaded into `assets/img/`.
 
 ## RSVP
 
