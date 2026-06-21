@@ -136,16 +136,133 @@
                         <h1 class="name-title">
                             Sachini <span>&amp;</span> Heshan
                         </h1>
-                        <a class="scroll-cue" href="#rsvp-section">scroll</a>
+                        <a class="scroll-cue" href="#wedding-details">scroll</a>
                     </section>
 
-                    <section class="wed-section light" id="rsvp-section">
-                        <div class="text-wrap">
-                            <h2>R.S.V.P</h2>
+                    <section
+                        class="wed-section light details-section"
+                        id="wedding-details"
+                    >
+                        <img
+                            class="details-flourish"
+                            src="assets/img/contact-flourish.svg"
+                            alt=""
+                        />
+                        <div class="text-wrap wide">
+                            <h2>Wedding Details</h2>
                             <p>
-                                We are so excited to have you at our wedding!
-                                Please fill the form below to register.
+                                We would be honoured to have you with us as we
+                                begin this new chapter together.
                             </p>
+                            <div
+                                class="detail-row"
+                                aria-label="Wedding details"
+                            >
+                                <article class="detail-card">
+                                    <svg
+                                        class="detail-icon"
+                                        viewBox="0 0 80 80"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M40 72s24-22.3 24-42A24 24 0 0 0 16 30c0 19.7 24 42 24 42Z"
+                                        />
+                                        <circle cx="40" cy="30" r="8" />
+                                    </svg>
+                                    <span>Location</span>
+                                    <strong>Venue name to be added</strong>
+                                    <p>Address or map link to be added</p>
+                                </article>
+                                <article class="detail-card">
+                                    <svg
+                                        class="detail-icon"
+                                        viewBox="0 0 80 80"
+                                        aria-hidden="true"
+                                    >
+                                        <circle cx="40" cy="40" r="26" />
+                                        <path d="M40 22v20l14 8" />
+                                        <path d="M30 10h20" />
+                                    </svg>
+                                    <span>Time</span>
+                                    <strong>Time to be added</strong>
+                                    <p>Guest arrival and celebration details</p>
+                                </article>
+                                <article class="detail-card">
+                                    <svg
+                                        class="detail-icon"
+                                        viewBox="0 0 80 80"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M18 62h44" />
+                                        <path d="M24 62V36a16 16 0 0 1 32 0v26" />
+                                        <path d="M18 36h44" />
+                                        <path d="M28 28 40 16l12 12" />
+                                        <path d="M34 62V44h12v18" />
+                                    </svg>
+                                    <span>Poruwa Ceremony</span>
+                                    <strong>Poruwa time to be added</strong>
+                                    <p>Traditional blessings with family</p>
+                                </article>
+                            </div>
+                            <a class="button dark" href="#countdown-section">
+                                countdown
+                            </a>
+                        </div>
+                    </section>
+
+                    <section
+                        class="wed-section countdown-section"
+                        id="countdown-section"
+                    >
+                        <div class="text-wrap countdown-wrap">
+                            <p class="section-kicker">Counting the days</p>
+                            <h2>Until we say yes to forever</h2>
+                            <blockquote>
+                                “The best thing to hold onto in life is each
+                                other.”
+                            </blockquote>
+                            <div
+                                class="countdown-grid"
+                                id="countdown"
+                                aria-label="Countdown to the wedding"
+                            >
+                                <div>
+                                    <strong id="countDays">00</strong>
+                                    <span>Days</span>
+                                </div>
+                                <div>
+                                    <strong id="countHours">00</strong>
+                                    <span>Hours</span>
+                                </div>
+                                <div>
+                                    <strong id="countMinutes">00</strong>
+                                    <span>Minutes</span>
+                                </div>
+                                <div>
+                                    <strong id="countSeconds">00</strong>
+                                    <span>Seconds</span>
+                                </div>
+                            </div>
+                            <a class="button" href="#rsvp-section">rsvp now</a>
+                        </div>
+                    </section>
+
+                    <section
+                        class="wed-section light rsvp-section"
+                        id="rsvp-section"
+                    >
+                        <div class="text-wrap rsvp-wrap">
+                            <div class="rsvp-heading">
+                                <p class="section-kicker">R.S.V.P</p>
+                                <h2>Celebrate with us</h2>
+                                <p>
+                                    We are so excited to have you at our
+                                    wedding. Kindly register your attendance
+                                    and reach out to either of us if you need
+                                    anything before the day.
+                                </p>
+                            </div>
+
                             <form class="rsvp-form" id="rsvpForm">
                                 <label for="name">Name</label>
                                 <input
@@ -183,76 +300,30 @@
                         </div>
                     </section>
 
-                    <section class="wed-section" id="programme">
-                        <div class="text-wrap">
-                            <h2>Programme Guide</h2>
-                            <p>
-                                Join us for an evening ceremony, portraits,
-                                dinner, and dancing as we celebrate with the
-                                people who mean the most to us.
-                            </p>
-                            <div class="program-list">
-                                <span
-                                    ><strong>4:00 PM</strong> Guest
-                                    arrival</span
-                                >
-                                <span><strong>4:30 PM</strong> Ceremony</span>
-                                <span
-                                    ><strong>6:30 PM</strong> Reception
-                                    dinner</span
-                                >
-                            </div>
-                            <a class="button" href="#rsvp-section">rsvp now</a>
-                        </div>
-                    </section>
-
-                    <section class="wed-section light" id="support">
-                        <div class="text-wrap">
-                            <h2>Support Us</h2>
-                            <p>
-                                We truly appreciate your love, prayers, and
-                                every form of support given to us.
-                            </p>
-                            <button class="accordion-trigger" type="button">
-                                Bank transfer
-                            </button>
-                            <div class="accordion-panel">
-                                <p>
-                                    Account holder: Sachini & Heshan<br />Bank:
-                                    Wedding Bank<br />Reference: Your name
-                                </p>
-                            </div>
-                            <button class="accordion-trigger" type="button">
-                                Send us a special gift
-                            </button>
-                            <div class="accordion-panel">
-                                <p>
-                                    Please bring gifts to the reception desk or
-                                    contact the wedding party.
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-
                     <section class="wed-section contact-section" id="contact">
                         <img
-                            class="flow-bg"
+                            class="contact-flourish"
                             src="assets/img/contact-flourish.svg"
                             alt=""
                         />
-                        <div class="text-wrap">
+                        <div class="text-wrap contact-wrap">
                             <h2>Reach out to us</h2>
                             <p>
-                                For directions, accommodation, or ceremony
-                                details, contact the wedding party.
+                                For directions, accommodation, or any ceremony
+                                details, we are just a call away.
                             </p>
-                            <a
-                                class="button colored"
-                                href="https://maps.google.com"
-                                target="_blank"
-                                rel="noreferrer"
-                                >view location</a
-                            >
+                            <div class="contact-list">
+                                <a href="tel:+94000000000">
+                                    <span>Bride</span>
+                                    <strong>Sachini</strong>
+                                    <em>+94 00 000 0000</em>
+                                </a>
+                                <a href="tel:+94000000000">
+                                    <span>Groom</span>
+                                    <strong>Heshan</strong>
+                                    <em>+94 00 000 0000</em>
+                                </a>
+                            </div>
                         </div>
                     </section>
                 </div>

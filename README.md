@@ -14,9 +14,9 @@ python3 -m http.server 4173
 Common edits:
 
 - Names and invitation copy: `index.html`
-- Date, RSVP, programme, support, and contact copy: `index.html`
+- Date, wedding details, countdown, RSVP, and contact copy: `index.html`
 - Colors and envelope animation: `styles.css`
-- Open/accordion/RSVP interactions: `script.js`
+- Open, photo slider, and RSVP interactions: `script.js`
 
 Notes:
 

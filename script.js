@@ -6,10 +6,16 @@ const formStatus = document.querySelector("#formStatus");
 const photoSlider = document.querySelector(".photo-slider");
 const previousSlideButton = document.querySelector(".slider-arrow.prev");
 const nextSlideButton = document.querySelector(".slider-arrow.next");
+const countDays = document.querySelector("#countDays");
+const countHours = document.querySelector("#countHours");
+const countMinutes = document.querySelector("#countMinutes");
+const countSeconds = document.querySelector("#countSeconds");
 
 let slides = [];
 let activeSlideIndex = 0;
 let slideTimer;
+let countdownTimer;
+const weddingDate = new Date("2026-09-10T00:00:00+05:30");
 
 function probeImage(src) {
   return new Promise((resolve) => {
@@ -92,12 +98,32 @@ function initSlider() {
 
 buildSlides().then(initSlider);
 
-document.querySelectorAll(".accordion-trigger").forEach((trigger) => {
-  trigger.addEventListener("click", () => {
-    trigger.classList.toggle("is-open");
-    trigger.nextElementSibling.classList.toggle("is-open");
-  });
-});
+function padCount(value) {
+  return String(value).padStart(2, "0");
+}
+
+function updateCountdown() {
+  if (!countDays || !countHours || !countMinutes || !countSeconds) return;
+
+  const remaining = Math.max(weddingDate.getTime() - Date.now(), 0);
+  const totalSeconds = Math.floor(remaining / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  countDays.textContent = padCount(days);
+  countHours.textContent = padCount(hours);
+  countMinutes.textContent = padCount(minutes);
+  countSeconds.textContent = padCount(seconds);
+
+  if (remaining === 0) {
+    window.clearInterval(countdownTimer);
+  }
+}
+
+updateCountdown();
+countdownTimer = window.setInterval(updateCountdown, 1000);
 
 rsvpForm.addEventListener("submit", (event) => {
   event.preventDefault();
