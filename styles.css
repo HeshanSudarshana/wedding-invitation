@@ -597,6 +597,54 @@ input {
     outline-offset: 0;
 }
 
+.rsvp-party-label {
+    margin: 0 0 4px;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 1.35rem;
+    color: var(--teal);
+}
+
+.rsvp-intro {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    color: rgba(18, 105, 106, 0.78);
+}
+
+.rsvp-guests {
+    display: grid;
+    gap: 8px;
+}
+
+.guest-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(18, 105, 106, 0.24);
+    padding: 14px 16px;
+    color: var(--dark);
+    background: rgba(255, 255, 255, 0.92);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 200ms ease, background 200ms ease;
+}
+
+.guest-toggle:hover {
+    border-color: var(--teal);
+}
+
+.guest-toggle input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--teal);
+    cursor: pointer;
+}
+
+.rsvp-message {
+    margin: 0;
+    color: var(--teal);
+    font-size: 1rem;
+}
+
 .button {
     display: inline-block;
     margin: 20px 5px 0;

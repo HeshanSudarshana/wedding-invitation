@@ -87,7 +87,9 @@ function initSlider() {
     showSlide(0);
     previousSlideButton.addEventListener("click", () => moveSlide(-1));
     nextSlideButton.addEventListener("click", () => moveSlide(1));
-    photoSlider.addEventListener("mouseenter", () => window.clearInterval(slideTimer));
+    photoSlider.addEventListener("mouseenter", () =>
+      window.clearInterval(slideTimer),
+    );
     photoSlider.addEventListener("mouseleave", queueNextSlide);
     queueNextSlide();
   } else {
@@ -125,8 +127,109 @@ function updateCountdown() {
 updateCountdown();
 countdownTimer = window.setInterval(updateCountdown, 1000);
 
-rsvpForm.addEventListener("submit", (event) => {
+// --- RSVP ----------------------------------------------------------------
+// Paste your deployed Google Apps Script web-app URL here (ends with /exec).
+const RSVP_API =
+  "https://script.google.com/macros/s/AKfycby2V_JGtNjQVhYiV-PiYsNKAUJ2SYzWX3hc6_I7Hf3zXFmnKw-hkskCM6_JGMDzhhI93A/exec";
+
+const rsvpGuests = document.querySelector("#rsvpGuests");
+const rsvpPartyLabel = document.querySelector("#rsvpPartyLabel");
+const rsvpMessage = document.querySelector("#rsvpMessage");
+
+function getRsvpToken() {
+  return new URLSearchParams(window.location.search).get("g");
+}
+
+function showRsvpMessage(text) {
+  rsvpForm.hidden = true;
+  rsvpMessage.textContent = text;
+}
+
+function renderGuests(guests, attendees) {
+  rsvpGuests.innerHTML = "";
+  guests.forEach((name, index) => {
+    const id = `guest-${index}`;
+    const row = document.createElement("label");
+    row.className = "guest-toggle";
+    row.htmlFor = id;
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = id;
+    checkbox.value = name;
+    // Pre-tick attendees from a previous response; otherwise default to coming.
+    checkbox.checked = attendees.length ? attendees.includes(name) : true;
+
+    const text = document.createElement("span");
+    text.textContent = name;
+
+    row.append(checkbox, text);
+    rsvpGuests.appendChild(row);
+  });
+}
+
+async function loadParty() {
+  const token = getRsvpToken();
+  if (!token) {
+    showRsvpMessage(
+      "This RSVP link looks incomplete. Please use the personal link we sent you.",
+    );
+    return;
+  }
+
+  try {
+    const response = await fetch(`${RSVP_API}?g=${encodeURIComponent(token)}`);
+    const data = await response.json();
+
+    if (!data.ok) {
+      showRsvpMessage(
+        "We couldn't find your invitation. Please check the link or reach out to us.",
+      );
+      return;
+    }
+
+    rsvpPartyLabel.textContent = data.partyLabel || "";
+    renderGuests(data.guests || [], data.attendees || []);
+    rsvpForm.hidden = false;
+
+    if (data.responded) {
+      formStatus.textContent =
+        "You've already responded — submit again to update your answer.";
+    }
+  } catch (error) {
+    showRsvpMessage(
+      "Something went wrong loading your invitation. Please try again later.",
+    );
+  }
+}
+
+rsvpForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  formStatus.textContent = "Thank you! We can't wait to see you!";
-  rsvpForm.reset();
+  const token = getRsvpToken();
+  const attendees = Array.from(
+    rsvpGuests.querySelectorAll("input:checked"),
+  ).map((input) => input.value);
+
+  const submitButton = rsvpForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  formStatus.textContent = "Sending your response…";
+
+  try {
+    // text/plain avoids a CORS preflight that Apps Script can't answer.
+    await fetch(RSVP_API, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ token, attendees }),
+    });
+
+    formStatus.textContent = attendees.length
+      ? "Thank you! We can't wait to celebrate with you."
+      : "Thank you for letting us know — you'll be missed!";
+  } catch (error) {
+    formStatus.textContent =
+      "We couldn't save your response. Please try again.";
+    submitButton.disabled = false;
+  }
 });
+
+loadParty();

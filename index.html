@@ -262,39 +262,21 @@
                                 <h2>Celebrate with us</h2>
                                 <p>
                                     We are so excited to have you at our
-                                    wedding. Kindly register your attendance and
-                                    reach out to either of us if you need
-                                    anything before the day.
+                                    wedding. Kindly let us know who will be
+                                    joining us, and reach out to either of us if
+                                    you need anything before the day.
                                 </p>
                             </div>
 
-                            <form class="rsvp-form" id="rsvpForm">
-                                <label for="name">Name</label>
-                                <input
-                                    id="name"
-                                    name="name"
-                                    type="text"
-                                    placeholder="Your name"
-                                    required
-                                />
-                                <label for="phone">Mobile Number</label>
-                                <input
-                                    id="phone"
-                                    name="phone"
-                                    type="tel"
-                                    placeholder="Phone Number"
-                                    required
-                                />
-                                <label for="email">Email Address</label>
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="Email address"
-                                    required
-                                />
+                            <form class="rsvp-form" id="rsvpForm" hidden>
+                                <p class="rsvp-party-label" id="rsvpPartyLabel"></p>
+                                <p class="rsvp-intro">
+                                    Please tick everyone who will be able to
+                                    attend.
+                                </p>
+                                <div class="rsvp-guests" id="rsvpGuests"></div>
                                 <button class="button dark full" type="submit">
-                                    register
+                                    send response
                                 </button>
                                 <p
                                     class="form-status"
@@ -302,6 +284,7 @@
                                     role="status"
                                 ></p>
                             </form>
+                            <p class="rsvp-message" id="rsvpMessage"></p>
                         </div>
                     </section>
 

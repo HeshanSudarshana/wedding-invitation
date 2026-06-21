@@ -1,0 +1,13 @@
+# Never commit guest data — it belongs only in the Google Sheet.
+guests*.csv
+guests*.xlsx
+guests*.json
+*guest-list*
+*rsvp-export*
+links*.csv
+
+# Local env / editor / OS noise
+.env
+.env.*
+.DS_Store
+*.log
