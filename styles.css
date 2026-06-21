@@ -377,11 +377,64 @@ input {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    animation: photoFade 8s infinite;
+    transition: opacity 500ms ease;
 }
 
-.photo-slider img:nth-child(2) {
-    animation-delay: 4s;
+.photo-slider img.is-active {
+    opacity: 1;
+}
+
+.slider-arrow {
+    position: absolute;
+    bottom: 20px;
+    z-index: 2;
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 1px solid rgba(246, 243, 233, 0.25);
+    border-radius: 500px;
+    background: transparent;
+    color: var(--cream);
+    cursor: pointer;
+    transition:
+        border-color 400ms ease,
+        background 400ms ease;
+}
+
+.slider-arrow:hover,
+.slider-arrow:focus-visible {
+    border-color: rgba(246, 243, 233, 0.74);
+    background: rgba(18, 105, 106, 0.12);
+}
+
+.slider-arrow:focus-visible {
+    outline: 2px solid rgba(246, 243, 233, 0.72);
+    outline-offset: 3px;
+}
+
+.slider-arrow::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+}
+
+.slider-arrow.prev {
+    left: calc(50% - 50px);
+}
+
+.slider-arrow.prev::before {
+    transform: translateX(2px) rotate(-135deg);
+}
+
+.slider-arrow.next {
+    left: calc(50% + 10px);
+}
+
+.slider-arrow.next::before {
+    transform: translateX(-2px) rotate(45deg);
 }
 
 .content-col {
