@@ -479,6 +479,13 @@ input {
     text-transform: uppercase;
 }
 
+.wedding-date {
+    margin-bottom: 0.1em;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
 .name-title {
     max-width: 10ch;
     margin: 0 auto 20px;
