@@ -3,6 +3,10 @@
     --cream: #f6f3e9;
     --blush: #f5beb1;
     --dark: #333;
+    /* Warm beige paper. grayscale flattens the pale green, sepia adds the
+       warm tan, then saturate/brightness keep it soft and light. Tune
+       saturate for warmth, brightness for lightness. */
+    --envelope-tint: grayscale(1) sepia(0.55) saturate(0.75) brightness(1.02);
     --envelope-shadow: 57px 57px 40px rgba(0, 0, 0, 0.1);
 }
 
@@ -135,6 +139,17 @@ input {
     z-index: 4;
     box-shadow: var(--envelope-shadow);
     backface-visibility: hidden;
+}
+
+/* Tie the envelope to the invitation: shift the pale paper toward a soft
+   version of the card's teal. A filter only touches the opaque paper
+   pixels, so the transparent cut-outs in the flap/back stay clean. */
+.envelope-front,
+.envelope-back-paper,
+.envelope-lining,
+.flap-inside img,
+.flap-back img {
+    filter: var(--envelope-tint);
 }
 
 .envelope-back-wrapper {
