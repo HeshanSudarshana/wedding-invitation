@@ -61,7 +61,7 @@ input {
     place-items: center;
     overflow: clip;
     padding: clamp(1rem, 5vw, 5rem);
-    background-image: url("https://assets.website-files.com/62d2be1149ba53f219cc5224/62d6742b972bf1214073306c_background.webp");
+    background-image: url("assets/img/page-background.webp");
     background-size: cover;
     transition:
         opacity 910ms ease 2990ms,
@@ -219,7 +219,7 @@ input {
 
 .mini-photo {
     min-height: 100%;
-    background-image: url("https://assets.website-files.com/61eaa4567764f614ee5240d0/61eaa4567764f617985240e0_unsplash_36P3Eo4jpq0.jpg");
+    background-image: url("assets/img/mini-photo.jpg");
     background-position: center;
     background-size: cover;
 }
