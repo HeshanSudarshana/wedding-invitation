@@ -460,6 +460,12 @@ input {
     transform: translateX(-2px) rotate(45deg);
 }
 
+/* The scroll hint only applies to the full-screen mobile photo hero; on desktop
+   the photo is sticky and the adjacent column scrolls, so it's hidden there. */
+.photo-scroll-hint {
+    display: none;
+}
+
 .content-col {
     height: 100vh;
     overflow-y: auto;
@@ -863,6 +869,14 @@ input {
     line-height: 1.6;
 }
 
+/* Groups the card's text under the icon. Full width + centred items preserve
+   the desktop stacked look; mobile re-targets it into a horizontal row. */
+.detail-text {
+    display: grid;
+    justify-items: center;
+    width: 100%;
+}
+
 .map-button {
     display: inline-block;
     margin-top: 18px;
@@ -1020,6 +1034,19 @@ input {
     }
 }
 
+/* translate(-50%, …) keeps the bottom-centred hint centred (it's pinned with
+   left: 50%) while nudging it down and back for the bounce. */
+@keyframes scrollHintBounce {
+    0%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+
+    50% {
+        transform: translate(-50%, 7px);
+    }
+}
+
 @keyframes photoFade {
     0%,
     45% {
@@ -1092,6 +1119,15 @@ input {
         display: block;
     }
 
+    /* Make the whole page a vertical scroll-snap container so the photo hero
+       and each section behave like full-screen slides you swipe between —
+       mirroring the desktop content column's mandatory snapping. The snap
+       targets (.photo-col, .wed-section) live at different nesting depths, but
+       scroll-snap-align resolves to this nearest scroll container regardless. */
+    html {
+        scroll-snap-type: y mandatory;
+    }
+
     .photo-col,
     .content-col {
         width: 100%;
@@ -1101,15 +1137,74 @@ input {
     .photo-col {
         position: relative;
         height: 100vh;
+        /* dvh tracks the *visible* viewport, so the full-screen hero doesn't
+           resize/jump as the mobile address bar shows and hides. */
+        height: 100dvh;
+        scroll-snap-align: start;
+    }
+
+    /* Move the carousel arrows to the mid-sides so they clear the scroll hint
+       sitting at the bottom centre (and they're easier thumb targets there). */
+    .slider-arrow {
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .slider-arrow.prev {
+        left: 16px;
+    }
+
+    .slider-arrow.next {
+        left: auto;
+        right: 16px;
+    }
+
+    .photo-scroll-hint {
+        position: absolute;
+        bottom: 26px;
+        left: 50%;
+        z-index: 2;
+        display: grid;
+        justify-items: center;
+        gap: 9px;
+        color: var(--cream);
+        font-family: Bitter, Georgia, serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+        pointer-events: none;
+        animation: scrollHintBounce 1.8s ease-in-out infinite;
+    }
+
+    /* Down-chevron: a box showing only its right + bottom borders, turned 45°. */
+    .photo-scroll-hint::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg);
     }
 
     .content-col {
         height: auto;
         overflow: visible;
+        /* On desktop this column is its own snapping scroll container; on mobile
+           the document (html) scrolls and snaps instead, so this just flows. */
+        scroll-snap-type: none;
     }
 
+    /* Each section is a full-screen slide and a snap target. min-height (not a
+       fixed height) lets a section taller than the viewport — e.g. the RSVP
+       form on a small phone — grow and stay fully scrollable rather than being
+       clipped by the section's overflow: hidden. */
     .wed-section {
-        padding: 64px 30px;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 56px 28px;
+        scroll-snap-align: start;
     }
 
     .name-title {
@@ -1121,6 +1216,104 @@ input {
         bottom: -5%;
         width: 380px;
         min-width: 380px;
+    }
+
+    /* Three stacked full cards overflow the screen, and the connector line —
+       reoriented vertical below 1080px — runs straight through their centred
+       text. Drop the line and lay each card out horizontally (icon | text) so
+       the section reads cleanly and fits one slide. */
+    .detail-row {
+        margin: 26px 0 6px;
+        gap: 16px;
+    }
+
+    .detail-row::before {
+        display: none;
+    }
+
+    .detail-card {
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        justify-items: start;
+        column-gap: 16px;
+        max-width: 360px;
+        padding: 0;
+        text-align: left;
+    }
+
+    .detail-icon {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 0;
+        padding: 11px;
+    }
+
+    .detail-text {
+        justify-items: start;
+        text-align: left;
+    }
+
+    .detail-card strong {
+        margin-top: 4px;
+    }
+
+    .detail-card p {
+        margin-top: 4px;
+    }
+
+    .map-button {
+        margin-top: 10px;
+    }
+
+    /* Tighten the RSVP block's vertical rhythm so the heading + form fit the
+       slide instead of running well past it. */
+    /* The RSVP form is the only section whose content can exceed one screen on a
+       phone (heading + form + the expanded guest-count box). Tighten its vertical
+       rhythm and drop the controls to a 44px (still tap-friendly) height so the
+       whole section fits inside a single 100dvh slide instead of overflowing. */
+    .rsvp-section {
+        padding-top: 34px;
+        padding-bottom: 34px;
+    }
+
+    .rsvp-heading {
+        margin-bottom: 16px;
+    }
+
+    .rsvp-heading h2 {
+        margin-bottom: 10px;
+        font-size: 1.9rem;
+    }
+
+    .rsvp-heading p {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
+
+    .rsvp-form {
+        gap: 8px;
+        padding: 16px;
+    }
+
+    .rsvp-form input,
+    .rsvp-form input.stepper-value,
+    .stepper-btn {
+        height: 44px;
+    }
+
+    .rsvp-radio {
+        padding: 10px 14px;
+    }
+
+    .rsvp-count {
+        gap: 10px;
+        margin: 2px 0;
+        padding: 12px;
+    }
+
+    .rsvp-form .button {
+        margin-top: 14px;
+        padding: 15px 22px 12px;
     }
 
     .contact-flourish {
