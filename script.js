@@ -297,6 +297,8 @@ rsvpForm.addEventListener("submit", async (event) => {
   } catch (error) {
     formStatus.textContent =
       "We couldn't save your response. Please try again.";
+  } finally {
+    // Re-enable so guests can update their answer (the backend upserts).
     submitButton.disabled = false;
   }
 });
