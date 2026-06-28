@@ -51,7 +51,42 @@ function revealInvitation() {
   envelopeSection.classList.add("is-open");
   invitationContent.classList.add("is-visible");
   openEnvelope.setAttribute("aria-expanded", "true");
+  // The opening click counts as a user gesture, so playback is allowed here.
+  musicToggle.classList.add("is-active");
+  playMusic();
 }
+
+// --- Background music ----------------------------------------------------
+const bgMusic = document.querySelector("#bgMusic");
+const musicToggle = document.querySelector("#musicToggle");
+
+function setMusicState(playing) {
+  musicToggle.classList.toggle("is-paused", !playing);
+  musicToggle.setAttribute("aria-pressed", String(playing));
+  musicToggle.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+}
+
+function playMusic() {
+  const attempt = bgMusic.play();
+  if (attempt && typeof attempt.then === "function") {
+    attempt.then(() => setMusicState(true)).catch(() => setMusicState(false));
+  } else {
+    setMusicState(true);
+  }
+}
+
+musicToggle.addEventListener("click", () => {
+  if (bgMusic.paused) {
+    playMusic();
+  } else {
+    bgMusic.pause();
+    setMusicState(false);
+  }
+});
+
+// Keep the icon honest if playback ends or is interrupted by the browser.
+bgMusic.addEventListener("pause", () => setMusicState(false));
+bgMusic.addEventListener("play", () => setMusicState(true));
 
 function showSlide(index) {
   activeSlideIndex = (index + slides.length) % slides.length;

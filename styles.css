@@ -1420,3 +1420,82 @@ input {
         animation-duration: 1ms !important;
     }
 }
+
+/* --- Background music control (invitation only) ------------------------- */
+.music-toggle {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 40;
+    display: none;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid rgba(246, 243, 233, 0.4);
+    border-radius: 500px;
+    background: var(--teal);
+    color: var(--cream);
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    transition:
+        transform 200ms ease,
+        background 200ms ease;
+}
+
+/* Revealed only once the invitation has been opened. */
+.music-toggle.is-active {
+    display: grid;
+}
+
+.music-toggle:hover {
+    transform: scale(1.06);
+}
+
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 18px;
+}
+
+.music-bars span {
+    width: 3px;
+    height: 100%;
+    border-radius: 2px;
+    background: var(--cream);
+    transform-origin: bottom;
+    animation: music-bounce 900ms ease-in-out infinite;
+}
+
+.music-bars span:nth-child(2) {
+    animation-delay: -300ms;
+}
+
+.music-bars span:nth-child(3) {
+    animation-delay: -600ms;
+}
+
+/* Paused: freeze the bars at a short, even height. */
+.music-toggle.is-paused .music-bars span {
+    animation-play-state: paused;
+    height: 35%;
+}
+
+@keyframes music-bounce {
+    0%,
+    100% {
+        transform: scaleY(0.35);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .music-toggle {
+        right: 14px;
+        bottom: 14px;
+        width: 44px;
+        height: 44px;
+    }
+}
