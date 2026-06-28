@@ -364,20 +364,18 @@ input {
 
 /* Opening needs almost twice the envelope's closed height: the flap rotates
    above it while the card lifts out. Scale and lower that expanded composition
-   on desktop so short browser windows do not crop either element. */
-@media (min-width: 768px) {
-    .is-open .envelope-stage {
-        transform: translateY(7vh) scale(0.82);
-    }
+   on every viewport so the top of the flap remains visible. */
+.is-open .envelope-stage {
+    transform: translateY(7vh) scale(0.82);
 }
 
-@media (min-width: 768px) and (max-height: 850px) {
+@media (max-height: 850px) {
     .is-open .envelope-stage {
         transform: translateY(7vh) scale(0.76);
     }
 }
 
-@media (min-width: 768px) and (max-height: 800px) {
+@media (max-height: 800px) {
     .is-open .envelope-stage {
         transform: translateY(7vh) scale(0.72);
     }
