@@ -60,6 +60,9 @@ function revealInvitation() {
 const bgMusic = document.querySelector("#bgMusic");
 const musicToggle = document.querySelector("#musicToggle");
 
+// Keep playback gentle so it sits softly behind the page.
+bgMusic.volume = 0.4;
+
 function setMusicState(playing) {
   musicToggle.classList.toggle("is-paused", !playing);
   musicToggle.setAttribute("aria-pressed", String(playing));
