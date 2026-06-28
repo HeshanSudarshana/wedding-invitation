@@ -1120,10 +1120,9 @@ input {
     }
 
     /* Make the whole page a vertical scroll-snap container so the photo hero
-       and each section behave like full-screen slides you swipe between —
-       mirroring the desktop content column's mandatory snapping. The snap
-       targets (.photo-col, .wed-section) live at different nesting depths, but
-       scroll-snap-align resolves to this nearest scroll container regardless. */
+       and each section behave like full-screen slides you swipe between. Taller
+       sections can still scroll through their content before reaching the next
+       snap point because they grow beyond the viewport instead of clipping. */
     html {
         scroll-snap-type: y mandatory;
     }
@@ -1297,15 +1296,11 @@ input {
         margin-top: 10px;
     }
 
-    /* Tighten the RSVP block's vertical rhythm so the heading + form fit the
-       slide instead of running well past it. */
-    /* The RSVP form is the only section whose content can exceed one screen on a
-       phone (heading + form + the expanded guest-count box). Tighten its vertical
-       rhythm and drop the controls to a 44px (still tap-friendly) height so the
-       whole section fits inside a single 100dvh slide instead of overflowing. */
+    /* RSVP can grow beyond one viewport when the guest-count picker is shown.
+       Keep the controls comfortable and let the section remain fully scrollable. */
     .rsvp-section {
-        padding-top: 34px;
-        padding-bottom: 34px;
+        overflow: visible;
+        padding: 30px 20px calc(34px + env(safe-area-inset-bottom));
     }
 
     .rsvp-heading {
@@ -1323,7 +1318,7 @@ input {
     }
 
     .rsvp-form {
-        gap: 8px;
+        gap: 10px;
         padding: 16px;
     }
 
@@ -1334,13 +1329,13 @@ input {
     }
 
     .rsvp-radio {
-        padding: 10px 14px;
+        padding: 12px 14px;
     }
 
     .rsvp-count {
         gap: 10px;
         margin: 2px 0;
-        padding: 12px;
+        padding: 14px;
     }
 
     .rsvp-form .button {
@@ -1372,6 +1367,12 @@ input {
 
     .wed-section {
         padding: 54px 24px;
+    }
+
+    /* This comes after the generic section rule so small phones retain the
+       RSVP section's compact outer gutter instead of becoming cramped again. */
+    .rsvp-section {
+        padding: 28px 16px calc(32px + env(safe-area-inset-bottom));
     }
 
     .contact-list {
