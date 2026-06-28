@@ -1090,7 +1090,7 @@ input {
 
 @media (max-width: 767px) {
     .envelope-stage {
-        width: 95vw;
+        width: 100%;
     }
 
     .stamp {
@@ -1211,6 +1211,27 @@ input {
         font-size: 80px;
     }
 
+    .scroll-cue {
+        bottom: 28px;
+        left: 50%;
+        display: grid;
+        width: 44px;
+        height: 44px;
+        place-items: center;
+        color: rgba(245, 190, 177, 0.55);
+        font-size: 0;
+        transform: translateX(-50%);
+    }
+
+    .scroll-cue::before {
+        content: "";
+        width: 11px;
+        height: 11px;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: translateY(-3px) rotate(45deg);
+    }
+
     .details-flourish {
         right: auto;
         bottom: -5%;
@@ -1218,13 +1239,12 @@ input {
         min-width: 380px;
     }
 
-    /* Three stacked full cards overflow the screen, and the connector line —
-       reoriented vertical below 1080px — runs straight through their centred
-       text. Drop the line and lay each card out horizontally (icon | text) so
-       the section reads cleanly and fits one slide. */
+    /* Present the details as one compact, consistently aligned list. */
     .detail-row {
-        margin: 26px 0 6px;
-        gap: 16px;
+        width: 100%;
+        max-width: 360px;
+        margin: 26px auto 0;
+        gap: 0;
     }
 
     .detail-row::before {
@@ -1233,18 +1253,30 @@ input {
 
     .detail-card {
         grid-template-columns: auto 1fr;
-        align-items: center;
+        align-items: start;
         justify-items: start;
-        column-gap: 16px;
-        max-width: 360px;
-        padding: 0;
+        column-gap: 18px;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        border-top: 1px solid rgba(18, 105, 106, 0.16);
+        padding: 17px 0;
         text-align: left;
+    }
+
+    .detail-card:first-child {
+        border-top: 0;
+        padding-top: 0;
+    }
+
+    .detail-card:last-child {
+        padding-bottom: 0;
     }
 
     .detail-icon {
         width: 52px;
         height: 52px;
-        margin-bottom: 0;
+        margin: 2px 0 0;
         padding: 11px;
     }
 
