@@ -196,6 +196,12 @@ input {
 
 .addressee strong {
     font-weight: 400;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+.addressee.is-loading strong {
+    opacity: 0;
 }
 
 .envelope-lining,

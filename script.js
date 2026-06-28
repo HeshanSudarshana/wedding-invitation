@@ -216,6 +216,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 const RSVP_API =
   "https://script.google.com/macros/s/AKfycbwVj68aDCfLf29DFpdA1B7s4ez-M1beRIUvvDd6sD9kjcGhNp5FoviO9Mr8mrXg4nEP/exec";
 
+const addresseeName = document.querySelector("#addresseeName");
 const rsvpPartyLabel = document.querySelector("#rsvpPartyLabel");
 const rsvpMessage = document.querySelector("#rsvpMessage");
 const attendYes = document.querySelector("#attendYes");
@@ -236,6 +237,9 @@ function getRsvpToken() {
 function showRsvpMessage(text) {
   rsvpForm.hidden = true;
   rsvpMessage.textContent = text;
+  // No personalized name available — fall back to a generic greeting.
+  addresseeName.textContent = "Dear Guest";
+  addresseeName.closest(".addressee").classList.remove("is-loading");
 }
 
 function clampCount(value) {
@@ -286,6 +290,10 @@ async function loadParty() {
     }
 
     rsvpPartyLabel.textContent = data.partyLabel || "";
+    if (data.partyLabel) {
+      addresseeName.textContent = data.partyLabel;
+      addresseeName.closest(".addressee").classList.remove("is-loading");
+    }
     maxCount = Math.max(parseInt(data.maxCount, 10) || 1, 1);
     if (maxCount > 1) {
       rsvpCountHint.textContent = `We've reserved up to ${maxCount} seats for your party.`;
