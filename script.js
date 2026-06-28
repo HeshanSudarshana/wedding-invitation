@@ -162,6 +162,52 @@ function updateCountdown() {
 updateCountdown();
 countdownTimer = window.setInterval(updateCountdown, 1000);
 
+// iOS Safari can keep the current snap point when a smooth anchor scroll starts
+// exactly on it, which makes an in-page jump return to its previous section.
+// Suspend mobile snapping until each programmatic scroll has settled.
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  const targetId = link.getAttribute("href");
+  const target =
+    targetId.length > 1 ? document.getElementById(targetId.slice(1)) : null;
+
+  if (!target) return;
+
+  link.addEventListener("click", (event) => {
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
+
+    event.preventDefault();
+    const root = document.documentElement;
+    let settleTimer;
+    let fallbackTimer;
+
+    const finishScroll = () => {
+      window.clearTimeout(settleTimer);
+      window.clearTimeout(fallbackTimer);
+      window.removeEventListener("scroll", queueFinish);
+      root.classList.remove("is-anchor-scrolling");
+    };
+
+    const queueFinish = () => {
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(finishScroll, 180);
+    };
+
+    root.classList.add("is-anchor-scrolling");
+    window.addEventListener("scroll", queueFinish, { passive: true });
+
+    // Wait for Safari to apply scroll-snap-type: none before starting the
+    // smooth scroll. Updating the hash through history avoids a second jump.
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.pushState(null, "", targetId);
+        queueFinish();
+        fallbackTimer = window.setTimeout(finishScroll, 1500);
+      });
+    });
+  });
+});
+
 // --- RSVP ----------------------------------------------------------------
 // Paste your deployed Google Apps Script web-app URL here (ends with /exec).
 const RSVP_API =

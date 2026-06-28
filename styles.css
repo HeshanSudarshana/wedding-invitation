@@ -1142,12 +1142,17 @@ input {
         display: block;
     }
 
-    /* Make the whole page a vertical scroll-snap container so the photo hero
-       and each section behave like full-screen slides you swipe between. Taller
-       sections can still scroll through their content before reaching the next
-       snap point because they grow beyond the viewport instead of clipping. */
+    /* Keep the full-screen slide feel without forcing every mobile scroll to a
+       snap point. iOS Safari can recalculate the viewport while its toolbars
+       move; mandatory snapping then sometimes sends an anchor jump or swipe
+       back to the previous section. Proximity snapping only engages when the
+       scroll naturally finishes near a section boundary. */
     html {
-        scroll-snap-type: y mandatory;
+        scroll-snap-type: y proximity;
+    }
+
+    html.is-anchor-scrolling {
+        scroll-snap-type: none;
     }
 
     .photo-col,
